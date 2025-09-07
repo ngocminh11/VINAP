@@ -11,49 +11,42 @@
 <section class="clients-single bg-white rounded-2xl shadow-soft overflow-hidden">
     <div class="px-5 py-4 border-b">
         <h1 class="text-xl md:text-2xl font-bold">Danh sách khách hàng tiêu biểu</h1>
-        <p class="text-sm text-neutral-600">Ảnh kh1 → kh12, hiển thị 1 cột, cùng bề ngang.</p>
     </div>
 
     @php
-    // Tên file đúng theo máy chủ:
-    $imgs = [
+    // Nhận danh sách từ route: $imgs = ['kh1.jpg', 'kh 10.jpg', ...]
+    // Nếu chưa truyền, dùng fallback cho an toàn
+    $files = $imgs ?? [
     'kh1.jpg','kh2.jpg','kh3.jpg','kh4.jpg','kh5.jpg','kh6.jpg',
-    'kh07.jpg','kh08.jpg','kh09.jpg','kh_10.jpg','kh_11.jpg','kh_12.jpg',
+    'kh07.jpg','kh08.jpg','kh09.jpg','kh 10.jpg','kh 11.jpg','kh_12.jpg',
     ];
-    $base = 'https://vinap.vn/image/data/khach-hang/';
-    @endphp
 
-    <div class="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
-        @foreach($imgs as $idx => $f)
-        @php
-        // Fallbacks để phòng khi server dùng khoảng trắng hay bỏ gạch dưới
-        $alt1 = str_replace('_','%20',$f); // "kh_10.jpg" -> "kh%2010.jpg"
-        $alt2 = str_replace(['%20','_'],'',$alt1); // -> "kh10.jpg"
+    // Helper tạo URL local: public/images/<file>
+        $toUrl = function (string $name) {
+        // encode khoảng trắng -> %20 để không lỗi đường dẫn
+        $encoded = str_replace(' ', '%20', $name);
+        return asset('images/'.$encoded);
+        };
         @endphp
-        <figure class="page">
-            <img
-                src="{{ $base.$f }}"
-                data-alt1="{{ $base.$alt1 }}"
-                data-alt2="{{ $base.$alt2 }}"
-                onerror="
-              if(this.dataset.alt1){ this.src=this.dataset.alt1; this.dataset.alt1=''; }
-              else if(this.dataset.alt2){ this.src=this.dataset.alt2; this.dataset.alt2=''; }
-              else { this.onerror=null; }
-            "
-                alt="Danh sách khách hàng – trang {{ $idx + 1 }}"
-                class="client-img"
-                loading="{{ $idx < 2 ? 'eager' : 'lazy' }}"
-                fetchpriority="{{ $idx === 0 ? 'high' : 'auto' }}">
-        </figure>
-        @endforeach
-    </div>
+
+        <div class="max-w-4xl mx-auto p-4 md:p-6 space-y-6">
+            @foreach($files as $idx => $f)
+            <figure class="page">
+                <img
+                    src="{{ $toUrl($f) }}"
+                    alt="Danh sách khách hàng – trang {{ $idx + 1 }}"
+                    class="client-img"
+                    loading="{{ $idx < 2 ? 'eager' : 'lazy' }}"
+                    fetchpriority="{{ $idx === 0 ? 'high' : 'auto' }}">
+            </figure>
+            @endforeach
+        </div>
 </section>
 
 <style>
-    /* Thu nhỏ bề ngang mỗi trang ảnh ~500+ px và vẫn responsive */
+    /* Thu gọn bề ngang để mỗi trang ~500-560px, vẫn responsive */
     .clients-single .page {
         width: min(560px, 100%);
-        /* <= đổi 560 thành 520/540/600 tuỳ bạn */
         max-width: 560px;
         margin: 0 auto 20px;
     }
@@ -69,5 +62,4 @@
         box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
     }
 </style>
-
 @endsection

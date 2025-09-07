@@ -2,13 +2,15 @@
 
 return [
     // Menu dùng chung cho mọi trang
+    'contact_map_embed' => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15677.773040225436!2d106.688757!3d10.777323!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1438fe04e92e1c66!2zVMOyYSBOaMOgIE9JSUM!5e0!3m2!1svi!2s!4v1506188822945',
+
     'nav' => [
         ['label' => 'Trang chủ', 'href' => '/'],
         ['label' => 'Giới thiệu', 'href' => '/gioi-thieu'],
         ['label' => 'Thư ngỏ', 'href' => '/thu-ngo'],
         ['label' => 'Hồ sơ năng lực', 'href' => '/ho-so-nang-luc'],
         ['label' => 'Khách hàng', 'href' => '/khach-hang'],
-        ['label' => 'Liên hệ', 'href' => '/#contact'],
+        ['label' => 'Liên hệ', 'href' => '/lien-he'],
     ],
 
     // Sidebar dùng chung

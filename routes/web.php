@@ -30,28 +30,25 @@ Route::view('/ho-so-nang-luc', 'capacity', [
     'team' => config('site.capacity.team'),
 ])->name('capacity');
 
-// routes/web.php
 Route::get('/khach-hang', function () {
-    // Lấy menu đúng từ config/site.php
-    $nav = config('site.nav');
+    // Lấy menu + footer như các trang khác
+    $nav   = config('site.nav');
+    $laws  = config('site.laws');
+    $links = config('site.links');
 
-    // Danh sách file đúng theo server
-    $base  = 'https://vinap.vn/image/data/khach-hang/';
-    $files = [
-        'kh1.jpg',
-        'kh2.jpg',
-        'kh3.jpg',
-        'kh4.jpg',
-        'kh5.jpg',
-        'kh6.jpg',
-        'kh07.jpg',
-        'kh08.jpg',
-        'kh09.jpg',
-        'kh 10.jpg',
-        'kh 11.jpg',
-        'kh_12.jpg',
-    ];
-    $imgs = array_map(fn($f) => $base . $f, $files);
+    // Lấy danh sách tất cả ảnh kh*.jpg trong public/images
+    $files = collect(glob(public_path('images/kh**.jpg')))
+        ->map(fn($p) => basename($p))   // chỉ giữ tên file
+        ->sort()                          // sắp xếp tăng dần
+        ->values()
+        ->all();
 
-    return view('clients', compact('nav', 'imgs'));
+    return view('clients', compact('nav', 'laws', 'links', 'files'));
 })->name('clients');
+
+// Liên hệ
+Route::view('/lien-he', 'contact', [
+    'laws'   => config('site.laws'),
+    'links'  => config('site.links'),
+    'embed'  => config('site.contact_map_embed'), // dùng URL embed ở config
+])->name('contact');
