@@ -1,0 +1,338 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* tokens tái dùng */
+.section {
+    @apply max-w-7xl mx-auto px-4;
+}
+
+.btn {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition;
+}
+
+.btn-primary {
+    @apply btn bg-brand text-white hover:bg-brand-600 shadow-soft;
+}
+
+.btn-ghost {
+    @apply btn bg-white/80 border border-neutral-200 hover:bg-white;
+}
+
+.card {
+    @apply bg-white rounded-2xl shadow-soft p-5;
+}
+
+.kicker {
+    @apply text-[11px] tracking-widest uppercase text-gray-500;
+}
+
+/* hiệu ứng reveal an toàn */
+.reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+
+.reveal--show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* border “glow” xịn */
+.gradient-border {
+    position: relative;
+}
+
+.gradient-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: 1.25rem;
+    background: conic-gradient(from 180deg, #118A7E, #F59E0B, #118A7E);
+    filter: blur(8px);
+    opacity: .22;
+}
+
+/* progress bar top */
+#scrollProgress {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 3px;
+    width: 0;
+    z-index: 50;
+    background: linear-gradient(90deg, #118A7E, #F59E0B);
+}
+
+/* header shadow khi cuộn */
+#siteHeader.is-scrolled {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+}
+
+/* ===== About page polish ===== */
+.sec {
+    @apply bg-white rounded-2xl shadow-soft p-6 md:p-8;
+}
+
+.sec-head {
+    @apply mb-4 flex items-center gap-3;
+}
+
+.sec-kicker {
+    @apply text-[11px] tracking-[.18em] uppercase text-brand;
+}
+
+.sec-title {
+    @apply text-xl md:text-2xl font-bold;
+}
+
+.badge {
+    @apply px-3 py-1 text-[11px] rounded-full bg-brand/10 text-brand;
+}
+
+.hr-soft {
+    @apply my-4 h-px bg-neutral-200/70 w-full;
+}
+
+.list-dot>li {
+    @apply pl-4 relative;
+}
+
+.list-dot>li::before {
+    content: "";
+    @apply absolute left-0 top-2 w-1.5 h-1.5 rounded-full bg-accent;
+}
+
+.info-tile {
+    @apply p-4 rounded-xl bg-brand-50/70 border border-brand/10;
+}
+
+.card-col {
+    @apply grid md:grid-cols-3 gap-4;
+}
+
+.prose-like p {
+    @apply leading-relaxed text-neutral-700;
+}
+
+.prose-like strong {
+    @apply text-neutral-900;
+}
+
+/* bảng testimonials mảnh, bo đẹp */
+table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+/* ===== Document (Open Letter) ===== */
+.doc {
+    @apply bg-white rounded-2xl border border-neutral-200 shadow-soft;
+}
+
+.doc-header {
+    @apply px-6 py-4 md:px-8 md:py-5 border-b border-neutral-200 bg-brand-50/60;
+}
+
+.doc-title {
+    @apply text-2xl md:text-3xl font-extrabold tracking-tight;
+}
+
+.doc-sub {
+    @apply text-sm text-neutral-600;
+}
+
+.doc-body {
+    @apply p-6 md:p-8 lg:p-10;
+}
+
+.doc-grid {
+    @apply grid gap-8 md:grid-cols-2 relative;
+}
+
+@media (min-width: 768px) {
+    .doc-grid::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: rgba(0, 0, 0, .08);
+    }
+}
+
+.doc-col {
+    @apply font-serif text-[15px] leading-8 text-neutral-800 text-justify;
+    hyphens: auto;
+}
+
+.doc-col p {
+    @apply mb-3;
+}
+
+.doc-h2 {
+    @apply text-[18px] font-bold text-brand mb-2;
+}
+
+.doc-list {
+    @apply list-disc pl-5;
+}
+
+.doc-callout {
+    @apply rounded-xl border border-brand/20 bg-brand-50/70 p-4 my-3;
+}
+
+.doc-hotline {
+    @apply rounded-xl bg-white border p-4 mt-3;
+}
+
+.doc-hotline .label {
+    @apply text-sm text-neutral-600;
+}
+
+.doc-hotline .val {
+    @apply font-semibold;
+}
+
+/* Testimonials table - formal */
+.tbl-wrap {
+    @apply bg-white rounded-2xl shadow-soft overflow-hidden border border-neutral-300/80;
+}
+
+.tbl {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.tbl tr {
+    background: #fff;
+}
+
+.tbl tr:nth-child(even) {
+    background: rgba(17, 138, 126, 0.06);
+}
+
+/* brand-50 */
+.tbl td {
+    @apply align-top p-4 md:p-5 border-b border-neutral-300/70;
+}
+
+.tbl td.name {
+    @apply w-[300px] md:w-[340px];
+}
+
+.tbl .person {
+    @apply font-semibold text-neutral-900;
+}
+
+.tbl .rolevi {
+    @apply text-xs text-neutral-700;
+}
+
+.tbl .roleen {
+    @apply text-xs italic text-neutral-600 mt-1;
+}
+
+.tbl .quote-vi {
+    @apply leading-relaxed;
+}
+
+.tbl .quote-en {
+    @apply italic text-neutral-700 mt-2;
+}
+
+.tbl tr:last-child td {
+    border-bottom: 0;
+}
+
+/* ===== Fix "văn bản nghiêm túc" cho thư ngỏ ===== */
+:root {
+    --doc-serif: ui-serif, "Merriweather", "Noto Serif", Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+/* Văn bản cột VI/EN */
+.doc-col {
+    font-family: var(--doc-serif);
+    font-size: 16px;
+    line-height: 1.85;
+    text-align: justify;
+    /* canh đều chuẩn */
+    text-justify: inter-word;
+    /* tránh kéo giãn từng ký tự */
+    hyphens: none;
+    /* tắt tự gạch nối gây bể dấu tiếng Việt */
+    letter-spacing: 0;
+    /* reset spacing */
+    word-spacing: 0;
+    font-kerning: normal;
+    font-variant-ligatures: none;
+    /* ngắt ligature để dấu không dính kỳ lạ */
+    text-wrap: pretty;
+    /* trình duyệt mới: wrap đẹp hơn */
+}
+
+/* Tên thương hiệu */
+.brand-acronym {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    font-style: normal !important;
+    /* không bị nghiêng dù nằm trong <em> */
+}
+
+/* brand acronym: luôn in HOA đậm */
+.brand-acronym {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    font-style: normal !important
+}
+
+/* văn bản cột: tránh kéo giãn ký tự & gạch nối bậy */
+.doc-col {
+    font-family: ui-serif, "Merriweather", "Noto Serif", Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: 16px;
+    line-height: 1.85;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: none;
+    letter-spacing: 0;
+    word-spacing: 0;
+    font-kerning: normal;
+    font-variant-ligatures: none;
+}
+
+/* Văn bản thư ngỏ: nghiêm túc, không rớt dấu */
+:root {
+    --doc-serif: "Noto Serif", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+
+.doc-col {
+    font-family: var(--doc-serif);
+    font-size: 16px;
+    line-height: 1.85;
+    text-align: justify;
+    text-justify: inter-word;
+    /* dãn theo từ, không dãn theo ký tự */
+    hyphens: none;
+    /* tắt tự gạch nối */
+    letter-spacing: 0;
+    word-spacing: 0;
+    font-kerning: normal;
+    font-variant-ligatures: normal;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: normal;
+}
+
+/* VINAP luôn in HOA, đậm, không nghiêng */
+.brand-acronym {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+    font-style: normal !important;
+}
