@@ -52,7 +52,6 @@
         </div>
         <div class="section py-4 text-xs text-neutral-500 flex items-center justify-between border-t">
             <span>© {{ date('Y') }} VINAP • All rights reserved</span>
-            <span>Thiết kế bởi NTVC</span>
         </div>
 
         <button id="backToTop" title="Về đầu trang"
