@@ -5,7 +5,7 @@
 {{-- LOGO BACKGROUND --}}
     <div class="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
         <img src="{{ asset('images/vinaplogo.png') }}"
-             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.08] contrast-125 select-none"
+             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.1] contrast-125 select-none"
              alt="">
     </div>
 {{-- Breadcrumb --}}

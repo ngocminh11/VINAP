@@ -22,6 +22,7 @@ return [
         'Nghị định bồi thường, hỗ trợ tái định cư',
         'Thông tư tài nguyên & môi trường'
     ],
+    
     'links' => [
         ['label' => 'Bộ Tài chính', 'href' => '#'],
         ['label' => 'Cục Thuế TP.HCM', 'href' => '#'],
@@ -43,6 +44,28 @@ return [
             ['title' => 'Chuyển nhượng dự án', 'img' => 'https://picsum.photos/seed/tile3/520/360'],
             ['title' => 'Tư vấn đầu tư - BĐS', 'img' => 'https://picsum.photos/seed/tile4/520/360'],
             ['title' => 'Nghiên cứu thị trường', 'img' => 'https://picsum.photos/seed/tile5/520/360'],
+        ],
+        'topServiceCards' => [
+            ['title' => 'Nhà nước', 'icon' => 'gov'],
+            ['title' => 'Bank', 'icon' => 'bank'],
+            ['title' => 'Hội nhóm VPC', 'icon' => 'group'],
+            ['title' => 'Dịch vụ tư vấn luật', 'icon' => 'law'],
+        ],
+    
+        'assetItems' => [
+            ['label' => 'Báo cáo tài chính và kiểm toán', 'icon' => 'clipboard'],
+            ['label' => 'Tham chiếu giao dịch', 'icon' => 'exchange'],
+            ['label' => 'Vay vốn hoặc vay thế chấp', 'icon' => 'loan'],
+            ['label' => 'Thông tin hoặc tin đăng của công ty', 'icon' => 'company'],
+            ['label' => 'Thu mua tài sản', 'icon' => 'acquire'],
+            ['label' => 'Bộ phận pháp lý', 'icon' => 'legal'],
+            ['label' => 'Các chuyên gia làm chứng và thẩm định viên độc lập', 'icon' => 'expert'],
+            ['label' => 'Cải tạo đất và bồi thường', 'icon' => 'land'],
+            ['label' => 'Điều chỉnh tiền thuê nhà và gia hạn hợp đồng', 'icon' => 'rent'],
+            ['label' => 'Thanh lý', 'icon' => 'liquidate'],
+            ['label' => 'Bảo hiểm', 'icon' => 'insurance'],
+            ['label' => 'Thủ tục pháp lý và trọng tài đất đai', 'icon' => 'gavel'],
+            ['label' => 'Thuế', 'icon' => 'tax'],
         ],
         'companyActivities' => [
             ['title' => 'XÂY DỰNG VĂN HÓA DOANH NGHIỆP', 'desc' => 'Trong một doanh nghiệp, đặc biệt là những doanh nghiệp có quy mô lớn, là một tập hợp những con người khác nhau về trình độ chuyên môn, trình độ văn hóa, mức độ nhận thức, quan hệ xã hội, vùng miền địa lý, tư tưởng văn hóa ... ', 'img' => 'https://picsum.photos/seed/act1/140/100', 'date' => '07/09/2025'],

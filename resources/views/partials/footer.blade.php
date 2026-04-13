@@ -19,7 +19,7 @@
             <div>
                 <h4 class="kicker">Về VINAP</h4>
                 <p class="mt-3 text-sm text-neutral-600">
-                    Số 9, đường 7, KDC Vina Nam Phú, Phước Kiển, Nhà Bè, TP.HCM<br>
+                    Số 9, đường 7, KDC Vina Nam Phú, Nhà Bè, TP.HCM<br>
                     Điện thoại: (+84.028) 39330831<br>
                     Hotline: (84) 917168816<br>
                     Website: vinap.vn<br>

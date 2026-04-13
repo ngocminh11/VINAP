@@ -3,189 +3,210 @@
 
 @section('content')
 
-{{-- LOGO BACKGROUND --}}
+<div class="relative">
+
+    {{-- BACKGROUND LOGO --}}
     <div class="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
         <img src="{{ asset('images/vinaplogo.png') }}"
-             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.08] contrast-125 select-none"
+             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.1] select-none"
              alt="">
     </div>
 
-{{-- BREADCRUMB --}}
-<nav class="text-sm text-neutral-500 mb-4">
-    <a href="/" class="hover:text-brand">Trang chủ</a>
-    <span class="mx-1">/</span>
-    <span class="text-neutral-700">Hồ sơ năng lực</span>
-</nav>
+    <div class="relative z-10">
 
-{{-- HEADER --}}
-<section class="sec gradient-border">
-    <p class="sec-kicker">CAPABILITY STATEMENT</p>
-    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
-        Hồ sơ năng lực <span class="text-brand">/ Capability Profile</span>
-    </h1>
-    <p class="mt-2 text-neutral-600">Nhân sự chủ chốt và kinh nghiệm chuyên môn của VINAP.</p>
-    {{-- NOTE: Link xem hồ sơ năng lực chi tiết --}}
-    <p class="mt-3 text-sm text-neutral-700">
-        Quý khách hàng xem chi tiết hồ sơ năng lực, vui lòng
-        <a href="https://vinap.vn/image/data/ho-so-nang-luc/HSNL_VINAP_T9.2024_opt.pdf" class="text-brand underline hover:opacity-80">
-            click vào đây
-        </a>.
-    </p>
+        {{-- BREADCRUMB --}}
+        <nav class="text-sm text-neutral-500 mb-4">
+            <a href="/" class="hover:text-brand">Trang chủ</a>
+            <span class="mx-1">/</span>
+            <span class="text-neutral-700">Hồ sơ năng lực</span>
+        </nav>
 
-</section>
+        {{-- HEADER --}}
+        <section class="sec gradient-border">
+            <p class="sec-kicker">CAPABILITY STATEMENT</p>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">
+                Hồ sơ năng lực <span class="text-brand">/ Capability Profile</span>
+            </h1>
+            <p class="mt-2 text-neutral-600">Nhân sự chủ chốt của VINAP.</p>
+        </section>
 
-{{-- HR HIGHLIGHTS (nếu đang dùng $hr) --}}
-@if(!empty($hr))
-<section class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-    @foreach($hr as $item)
-    <div class="bg-white rounded-xl shadow-soft p-4">
-        <div class="text-sm">{{ $item['vi'] }}</div>
-        <div class="text-xs italic text-neutral-600">{{ $item['en'] }}</div>
-    </div>
-    @endforeach
-</section>
-@endif
+        {{-- TEAM --}}
+        <section class="mt-8">
 
-{{-- BẢNG NHÂN SỰ 3 CỘT --}}
-<section class="mt-8">
-    <div class="bg-white rounded-2xl shadow-soft overflow-hidden border border-neutral-200/70 hidden md:block">
-        <table class="w-full text-sm table-fixed">
-            <colgroup>
-                <col class="w-16"> {{-- Stt / No --}}
-                <col class="w-[320px]"> {{-- Name --}}
-                <col> {{-- Details --}}
-            </colgroup>
-            <thead class="bg-brand-50/50 text-left">
-                <tr>
-                    <th class="px-4 py-3 border-b">
-                        <div class="font-semibold">Stt</div>
-                        <div class="text-xs text-neutral-600">No</div>
-                    </th>
-                    <th class="px-4 py-3 border-b">
-                        <div class="font-semibold">Họ và tên</div>
-                        <div class="text-xs text-neutral-600">Full name</div>
-                    </th>
-                    <th class="px-4 py-3 border-b">
-                        <div class="font-semibold">Quá trình công tác, năng lực chuyên môn</div>
-                        <div class="text-xs text-neutral-600">Working Experience, Professional Ability</div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
+            {{-- DESKTOP --}}
+            <div class="hidden md:block bg-white rounded-2xl shadow overflow-hidden border">
+                <table class="w-full text-sm table-fixed">
+
+                    <colgroup>
+                        <col class="w-14">
+                        <col class="w-[260px]">
+                        <col>
+                        <col class="w-[220px]">
+                    </colgroup>
+
+                    <thead class="bg-brand-50/60 text-left">
+                        <tr>
+                            <th class="px-4 py-3">Số
+                                <div class="text-xs text-neutral-400 italic font-normal">
+                                No                                </div>
+                            </th>
+                            <th class="px-4 py-3">
+                                Họ và tên
+                                <div class="text-xs text-neutral-400 italic font-normal">
+                                    Full Name
+                                </div>
+                            </th>
+
+                            <th class="px-4 py-3">
+                                Quy trình công tác, năng lực chuyên môn
+                                <div class="text-xs text-neutral-400 italic font-normal">
+                                    Working Experience, Professional Ability
+                                </div>
+                            </th>
+
+                            <th class="px-4 py-3 text-right">
+                                Thẻ hành nghề
+                                <div class="text-xs text-neutral-400 italic font-normal">
+                                    Valuer Certificate
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($team as $i => $m)
+
+                        @php
+                        $name = $m['name'] ?? '';
+
+                        $slug = \Illuminate\Support\Str::of($name)
+                            ->lower()
+                            ->ascii()
+                            ->replace(' ', '')
+                            ->replaceMatches('/[^a-z0-9]/', '');
+
+                        $imgPath = asset("images/HSNL/{$slug}_HSNL.jpg");
+                        $fallback = asset("images/default.jpg");
+                        @endphp
+
+                        <tr class="group align-top transition hover:bg-brand-50/40">
+
+                            {{-- STT --}}
+                            <td class="p-4 border-b font-semibold">
+                                {{ $i + 1 }}
+                            </td>
+
+                            {{-- INFO --}}
+                            <td class="p-4 border-b">
+                                <div class="font-bold text-neutral-900 group-hover:text-brand transition">
+                                    {{ $m['name'] }}
+                                </div>
+
+                                <div class="text-xs text-neutral-700">{{ $m['role_vi'] ?? '' }}</div>
+                                <div class="text-xs italic text-neutral-600">{{ $m['role_en'] ?? '' }}</div>
+
+                                @if(!empty($m['certs']))
+                                <ul class="mt-2 text-xs space-y-1">
+                                    @foreach($m['certs'] as $c)
+                                    <li>• {!! $c !!}</li>
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </td>
+
+                            {{-- DETAILS --}}
+                            <td class="p-4 border-b">
+                                <div class="space-y-1 text-[13px]">
+                                    @foreach(($m['exp_vi'] ?? []) as $vi)
+                                    <div>+ {{ $vi }}</div>
+                                    @endforeach
+                                </div>
+
+                                @if(!empty($m['years']))
+                                <div class="mt-2 text-xs text-neutral-600">
+                                    {{ $m['years'] }} năm kinh nghiệm
+                                </div>
+                                @endif
+                            </td>
+
+                            {{-- IMAGE RIGHT --}}
+                            <td class="p-4 border-b">
+                                <div class="flex justify-end">
+                                    <img src="{{ $imgPath }}"
+                                         onerror="this.src='{{ $fallback }}'"
+                                         class="w-[160px] h-[90px] lg:w-[200px] lg:h-[110px]
+                                                object-cover rounded-lg shadow cursor-pointer
+                                                transition group-hover:scale-105"
+                                         onclick="openPreview('{{ $imgPath }}')">
+                                </div>
+                            </td>
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- MOBILE --}}
+            <div class="md:hidden space-y-4">
                 @foreach($team as $i => $m)
-                <tr class="align-top odd:bg-white even:bg-brand-50/30">
-                    {{-- STT --}}
-                    <td class="p-4 border-b">{{ $i + 1 }}</td>
 
-                    {{-- NAME + ROLE + CERTS --}}
-                    <td class="p-4 border-b">
-                        <div class="font-semibold text-neutral-900">{{ $m['name'] }}</div>
-                        @if(!empty($m['role_vi'])) <div class="text-xs text-neutral-700">{{ $m['role_vi'] }}</div>@endif
-                        @if(!empty($m['role_en'])) <div class="text-xs italic text-neutral-600">{{ $m['role_en'] }}</div>@endif>
+                @php
+                $name = $m['name'] ?? '';
 
-                        @if(!empty($m['certs']))
-                        <ul class="mt-2 text-xs space-y-1">
-                            @foreach($m['certs'] as $c) <li>• {!! $c !!}</li> @endforeach
-                        </ul>
-                        @endif
-                    </td>
+                $slug = \Illuminate\Support\Str::of($name)
+                    ->lower()
+                    ->ascii()
+                    ->replace(' ', '')
+                    ->replaceMatches('/[^a-z0-9]/', '');
 
-                    {{-- DETAILS: EDUCATION + EXPERIENCE --}}
-                    <td class="p-4 border-b md:border-l">
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <div class="text-[13px] font-medium mb-1">Trình độ chuyên môn nghiệp vụ</div>
-                                <div class="text-[12.5px] text-neutral-700 space-y-1">
-                                    @foreach(($m['edu_vi'] ?? []) as $k => $vi)
-                                    <div>
-                                        <div>{{ $vi }}</div>
-                                        @if(isset($m['edu_en'][$k]))<div class="italic text-neutral-600">{{ $m['edu_en'][$k] }}</div>@endif
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <div>
-                                <div class="text-[13px] font-medium mb-1">Kinh nghiệm công tác</div>
-                                <div class="text-[12.5px] text-neutral-700 space-y-1">
-                                    @foreach(($m['exp_vi'] ?? []) as $k => $vi)
-                                    <div>
-                                        <div>+ {{ $vi }}</div>
-                                        @if(isset($m['exp_en'][$k]))<div class="italic text-neutral-600">{{ $m['exp_en'][$k] }}</div>@endif
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        @if(!empty($m['years']))
-                        <div class="mt-3 text-xs text-neutral-600">
-                            Thâm niên công tác: {{ $m['years'] }} <span class="italic">/ Employee Recording: {{ $m['years'] }}</span>
-                        </div>
-                        @endif
-                    </td>
-                </tr>
+                $imgPath = asset("images/HSNL/{$slug}_HSNL.jpg");
+                $fallback = asset("images/default.jpg");
+                @endphp
+
+                <article class="bg-white rounded-2xl shadow p-4">
+
+                    <img src="{{ $imgPath }}"
+                         onerror="this.src='{{ $fallback }}'"
+                         class="w-full h-[200px] object-cover rounded-lg mb-3 cursor-pointer"
+                         onclick="openPreview('{{ $imgPath }}')">
+
+                    <div class="font-bold">{{ $m['name'] }}</div>
+                    <div class="text-xs text-neutral-600">{{ $m['role_vi'] ?? '' }}</div>
+
+                    <div class="mt-2 text-sm space-y-1">
+                        @foreach(($m['exp_vi'] ?? []) as $vi)
+                        <div>+ {{ $vi }}</div>
+                        @endforeach
+                    </div>
+
+                </article>
                 @endforeach
-            </tbody>
-        </table>
+            </div>
+
+        </section>
+
     </div>
+</div>
 
-    {{-- MOBILE CARDS --}}
-    <div class="md:hidden space-y-4">
-        @foreach($team as $i => $m)
-        <article class="bg-white rounded-2xl shadow-soft p-4">
-            <div class="flex items-start justify-between">
-                <div>
-                    <div class="text-xs text-neutral-500">Stt / No</div>
-                    <div class="font-semibold">{{ $i + 1 }}</div>
-                </div>
-            </div>
+{{-- PREVIEW --}}
+<div id="imgPreview" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50">
+    <img id="previewImg" class="max-w-[95%] max-h-[85%] object-contain rounded-xl shadow-2xl">
+</div>
 
-            <div class="mt-2">
-                <div class="text-xs text-neutral-500">Họ và tên / Full name</div>
-                <div class="font-semibold">{{ $m['name'] }}</div>
-                @if(!empty($m['role_vi'])) <div class="text-xs text-neutral-700">{{ $m['role_vi'] }}</div>@endif
-                @if(!empty($m['role_en'])) <div class="text-xs italic text-neutral-600">{{ $m['role_en'] }}</div>@endif
-            </div>
+<script>
+function openPreview(src) {
+    const modal = document.getElementById('imgPreview');
+    const img = document.getElementById('previewImg');
 
-            @if(!empty($m['certs']))
-            <div class="mt-3">
-                <div class="text-xs text-neutral-500">Chứng chỉ / Certificates</div>
-                <ul class="list-disc ms-5 text-xs space-y-1">
-                    @foreach($m['certs'] as $c) <li>{!! $c !!}</li> @endforeach
-                </ul>
-            </div>
-            @endif
+    img.src = src;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+}
 
-            <div class="mt-3">
-                <div class="text-xs text-neutral-500">Trình độ / Professional ability</div>
-                <ul class="list-disc ms-5 text-xs space-y-1">
-                    @foreach(($m['edu_vi'] ?? []) as $k => $vi)
-                    <li>
-                        <div>{{ $vi }}</div>
-                        @if(isset($m['edu_en'][$k]))<div class="italic text-neutral-600">{{ $m['edu_en'][$k] }}</div>@endif
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
+document.getElementById('imgPreview').onclick = function () {
+    this.classList.add('hidden');
+};
+</script>
 
-            <div class="mt-3">
-                <div class="text-xs text-neutral-500">Kinh nghiệm / Working experience</div>
-                <ul class="list-disc ms-5 text-xs space-y-1">
-                    @foreach(($m['exp_vi'] ?? []) as $k => $vi)
-                    <li>
-                        <div>{{ $vi }}</div>
-                        @if(isset($m['exp_en'][$k]))<div class="italic text-neutral-600">{{ $m['exp_en'][$k] }}</div>@endif
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-
-            @if(!empty($m['years']))
-            <div class="mt-3 text-xs text-neutral-600">
-                Thâm niên / Employee Recording: {{ $m['years'] }}
-            </div>
-            @endif
-        </article>
-        @endforeach
-    </div>
-</section>
 @endsection

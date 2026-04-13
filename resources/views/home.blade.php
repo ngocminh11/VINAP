@@ -1,12 +1,15 @@
 @extends('layouts.main')
 @section('title','VINAP • Trang chủ')
-
+@php
+$topServiceCards = config('site.home.topServiceCards');
+$assetItems = config('site.home.assetItems') ?? [];
+@endphp
 @section('content')
 
 {{-- LOGO BACKGROUND --}}
     <div class="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
         <img src="{{ asset('images/vinaplogo.png') }}"
-             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.08] contrast-125 select-none"
+             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.1] contrast-125 select-none"
              alt="">
     </div>
 
@@ -26,14 +29,20 @@ return isset($src) && trim((string)$src) !== '' ? $src : $PH;
 };
 
 // Banner (có thể truyền từ controller). Nếu chưa có, dùng mặc định.
-$banners = ($banners ?? [
-asset('images/hero-1.jpg'),
-asset('images/hero-2.jpg'),
-asset('images/hero-3.jpg'),
-]);
+$banners = collect(range(1, 10)) // tối đa 10 banner, thích thì tăng
+    ->map(fn($i) => "images/Banner/banner{$i}.jpg")
+    ->filter(fn($path) => file_exists(public_path($path)))
+    ->map(fn($path) => asset($path))
+    ->values()
+    ->toArray();
+
+// Fallback: luôn có ít nhất 1 slide để tránh lỗi layout/JS khi thiếu banner
+if (empty($banners)) {
+    $banners = [null];
+}
 @endphp
 
-{{-- ================= HERO (blend mượt) ================= --}}
+{{-- ================= HERO FULL WIDTH ================= --}}
 <section class="relative">
     {{-- SLIDER: ảnh ở TRÊN --}}
     <div id="heroSlider"
@@ -111,99 +120,279 @@ asset('images/hero-3.jpg'),
     </div>
 </section>
 
+{{-- ================= CORE VALUES CIRCLE ================= --}}
+<section class="section reveal" id="coreValuesSectionReveal">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
 
-{{-- JS: autoplay + điều hướng + swipe --}}
-<script>
-    (() => {
-        const root = document.querySelector('#heroSlider');
-        if (!root) return;
-        const track = root.querySelector('.slides');
-        const slides = Array.from(track.children);
-        const dots = root.querySelectorAll('[data-dot]');
-        const prev = root.querySelector('[data-prev]');
-        const next = root.querySelector('[data-next]');
-        const N = slides.length;
-        const INTERVAL = 5000; // ms
+        {{-- TITLE --}}
+        <div class="text-center mb-14 core-values-head">
+            <h2 class="text-3xl md:text-4xl font-bold text-sky-900">
+                Tại sao chọn VINAP?
+            </h2>
 
-        let i = 0,
-            timer;
+            <p class="text-neutral-700 mt-4 max-w-3xl mx-auto leading-relaxed">
+                VINAP không chỉ cung cấp dịch vụ thẩm định giá, mà còn đảm bảo sự minh bạch,
+                chính xác và đồng hành dài hạn trong mọi quyết định đầu tư.
+            </p>
 
-        function go(n) {
-            i = (n + N) % N;
-            track.style.transform = `translateX(-${i * 100}%)`;
-            dots.forEach((d, idx) => d.dataset.active = (idx === i) ? 'true' : 'false');
-        }
-
-        function play() {
-            stop();
-            timer = setInterval(() => go(i + 1), INTERVAL);
-        }
-
-        function stop() {
-            if (timer) clearInterval(timer);
-        }
-
-        prev?.addEventListener('click', () => {
-            stop();
-            go(i - 1);
-            play();
-        });
-        next?.addEventListener('click', () => {
-            stop();
-            go(i + 1);
-            play();
-        });
-        dots.forEach((d, idx) => d.addEventListener('click', () => {
-            stop();
-            go(idx);
-            play();
-        }));
-
-        root.addEventListener('mouseenter', stop);
-        root.addEventListener('mouseleave', play);
-
-        // Swipe mobile
-        let sx = 0;
-        root.addEventListener('touchstart', e => {
-            sx = e.touches[0].clientX;
-            stop();
-        }, {
-            passive: true
-        });
-        root.addEventListener('touchend', e => {
-            const dx = e.changedTouches[0].clientX - sx;
-            if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
-            play();
-        }, {
-            passive: true
-        });
-
-        go(0);
-        play();
-    })();
-</script>
-
-{{-- ================= DẢI Ô DỊCH VỤ ================= --}}
-<section id="services" class="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-    @foreach(($serviceTiles ?? []) as $st)
-    <article class="bg-white rounded-xl shadow-soft overflow-hidden group">
-        <div class="aspect-[4/3] min-h-[150px]">
-            <img
-                src="{{ $imgSrc($st['img'] ?? null) }}"
-                onerror="this.onerror=null;this.src='{{ $PH }}';"
-                alt="{{ $st['title'] ?? 'Service' }}"
-                class="w-full h-full object-cover group-hover:scale-105 transition"
-                loading="lazy">
+            <div class="w-20 h-1 bg-amber-400 mx-auto mt-5 rounded-full"></div>
         </div>
-        <div class="px-3 py-3">
-            <h3 class="text-sm font-semibold text-center">{{ $st['title'] ?? 'Dịch vụ' }}</h3>
+
+        @php
+            $coreValues = [
+                ['title'=>'Trung thực','desc'=>'Minh bạch, đúng hạn, đáng tin cậy.','color'=>'sky'],
+                ['title'=>'Chất lượng cao','desc'=>'Tiêu chuẩn cao trong mọi sản phẩm.','color'=>'amber'],
+                ['title'=>'Đồng hành','desc'=>'Luôn sát cánh cùng khách hàng.','color'=>'emerald'],
+                ['title'=>'Hợp tác','desc'=>'Phát triển bền vững với đối tác.','color'=>'orange'],
+            ];
+        @endphp
+
+        <div class="grid lg:grid-cols-3 gap-10 lg:gap-7 xl:gap-10 items-center core-values-grid">
+
+            {{-- LEFT --}}
+            <div class="space-y-10">
+                @foreach([$coreValues[0], $coreValues[1]] as $i => $item)
+                <div class="core-item group flex gap-4 items-start" data-color="{{ $item['color'] }}" data-stagger="{{ $i }}">
+                    <div class="icon-box {{ $item['color']=='sky'?'bg-sky-500':'bg-amber-400' }}"></div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold {{ $item['color']=='sky'?'text-sky-600':'text-amber-500' }}">
+                            {{ $item['title'] }}
+                        </h3>
+                        <p class="text-neutral-600 mt-1 text-sm">
+                            {{ $item['desc'] }}
+                        </p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            {{-- CENTER --}}
+            <div class="flex justify-center">
+                <div class="core-circle" id="coreCircle" role="img" aria-label="Giá trị cốt lõi VINAP">
+
+                    <div class="core-ring"></div>
+
+                    <div class="core-inner">
+                        <p class="text-center text-[0.8125rem] font-semibold tracking-[0.12em] uppercase text-sky-900/75 leading-snug px-2">Giá trị cốt lõi</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- RIGHT --}}
+            <div class="space-y-10">
+                @foreach([$coreValues[2], $coreValues[3]] as $j => $item)
+                <div class="core-item group flex gap-4 items-start" data-color="{{ $item['color'] }}" data-stagger="{{ 2 + $j }}">
+                    <div class="icon-box {{ $item['color']=='emerald'?'bg-emerald-500':'bg-orange-500' }}"></div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold {{ $item['color']=='emerald'?'text-emerald-600':'text-orange-500' }}">
+                            {{ $item['title'] }}
+                        </h3>
+                        <p class="text-neutral-600 mt-1 text-sm">
+                            {{ $item['desc'] }}
+                        </p>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
         </div>
-    </article>
-    @endforeach
+    </div>
+</section>
+
+{{-- ================= DỊCH VỤ PSA ================= --}}
+<section id="services-psa" class="py-20 reveal-up">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+        @php
+            $psaServices = [
+                [
+                    'title' => 'Dịch vụ định giá',
+                    'desc' => 'Ý kiến định giá phản ánh đầy đủ đặc điểm tài sản và xu hướng thị trường, giúp các bên trong giao dịch ra quyết định khách quan.',
+                    'items' => ['Định giá bất động sản', 'Định giá máy móc thiết bị', 'Định giá tài sản vô hình', 'Định giá công cụ tài chính'],
+                    'icon' => 'chart'
+                ],
+                [
+                    'title' => 'Dịch vụ tư vấn',
+                    'desc' => 'Cung cấp báo cáo tư vấn chuyên nghiệp, hỗ trợ khách hàng ứng phó thách thức kinh doanh và tối ưu hiệu quả đầu tư.',
+                    'items' => ['Tư vấn chính sách đất đai', 'Tư vấn giao dịch bất động sản', 'Đơn xin miễn giảm ngân hàng', 'Hỗ trợ hồ sơ dự án'],
+                    'icon' => 'consult'
+                ],
+                [
+                    'title' => 'Dịch vụ tư vấn chuyên sâu',
+                    'desc' => 'Đội ngũ chuyên gia đa ngành phối hợp để xây dựng giải pháp khả thi, phù hợp thực tiễn triển khai của từng doanh nghiệp.',
+                    'items' => ['Nghiên cứu khả thi', 'Phân tích ngành', 'Nghiên cứu thị trường', 'Ứng dụng quy hoạch đô thị'],
+                    'icon' => 'team'
+                ],
+                [
+                    'title' => 'Thị trường vốn và dịch vụ đầu tư',
+                    'desc' => 'Đồng hành cùng nhà đầu tư trong mọi giai đoạn từ phân tích cơ hội, quản lý giao dịch đến tối ưu danh mục tài sản.',
+                    'items' => ['Mua bán/chuyển nhượng tài sản', 'Cho thuê BĐS thương mại', 'Quản lý tài sản', 'Tái cấu trúc danh mục đầu tư'],
+                    'icon' => 'idea'
+                ],
+            ];
+        @endphp
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl md:text-4xl font-semibold text-sky-900">Dịch vụ PSA</h2>
+            <div class="w-24 h-1 bg-amber-400 rounded-full mx-auto mt-3"></div>
+            <p class="mt-4 text-neutral-700 max-w-4xl mx-auto">
+                Tuân thủ các chuẩn mực đạo đức và tính chính trực, chúng tôi cung cấp các dịch vụ chuyên nghiệp được thiết kế riêng để tạo nên giải pháp đôi bên cùng có lợi.
+            </p>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/10 bg-slate-900">
+            <div class="grid md:grid-cols-[320px_1fr] min-h-[520px]">
+                <aside class="bg-[#0d7fc4] p-0">
+                    @foreach($psaServices as $i => $sv)
+                        <button
+                            type="button"
+                            class="psa-tab w-full text-left px-6 py-6 flex items-center gap-4 border-l-4 transition {{ $i === 0 ? 'is-active border-amber-400 bg-black/35' : 'border-transparent bg-transparent hover:bg-black/15' }}"
+                            data-psa-tab="{{ $i }}">
+                            <span class="w-10 h-10 rounded-full border border-white/30 grid place-items-center text-white/90">
+                                @if($sv['icon'] === 'chart')
+                                    <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 20h18M7 16v-5m5 5V8m5 8V5M5 8l2-2 4 3 6-5 2 2"></path></svg>
+                                @elseif($sv['icon'] === 'consult')
+                                    <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 5h18v4H3zM6 11h12v8H6zM9 15h6"></path></svg>
+                                @elseif($sv['icon'] === 'team')
+                                    <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M10 11a4 4 0 1 0 0-8m8 18v-2a4 4 0 0 0-3-3.87M16 3a4 4 0 0 1 0 8"></path></svg>
+                                @else
+                                    <svg viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"></path></svg>
+                                @endif
+                            </span>
+                            <span class="text-white text-xl font-medium leading-tight">{{ $sv['title'] }}</span>
+                        </button>
+                    @endforeach
+                </aside>
+
+                <div class="relative">
+                    <img src="{{ $imgSrc($banners[0] ?? null) }}" class="w-full h-full object-cover" alt="">
+                    <div class="absolute inset-0 bg-black/55"></div>
+                    <div class="absolute inset-0 p-8 md:p-12 text-white">
+                        @foreach($psaServices as $i => $sv)
+                            <article class="psa-panel {{ $i === 0 ? '' : 'hidden' }}" data-psa-panel="{{ $i }}">
+                                <h3 class="text-4xl font-semibold">{{ $sv['title'] }}</h3>
+                                <p class="mt-4 text-lg text-white/90 leading-relaxed max-w-3xl">{{ $sv['desc'] }}</p>
+                                <ul class="mt-6 space-y-2 text-lg text-white/90">
+                                    @foreach($sv['items'] as $item)
+                                        <li class="flex items-start gap-2"><span class="mt-2 w-1.5 h-1.5 rounded-full bg-white"></span>{{ $item }}</li>
+                                    @endforeach
+                                </ul>
+                            </article>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ================= LỚP TÀI SẢN DỊCH VỤ (STYLE PSA) ================= --}}
+<section class="w-full bg-gradient-to-br from-[#0f3d5c] via-[#0c4a6e] to-[#083344] py-10">
+
+    <div class="max-w-[1320px] xl:max-w-[1400px] mx-auto px-4">
+
+        <!-- TITLE -->
+        <div class="text-center max-w-xl mx-auto">
+            <h2 class="text-[26px] font-bold text-white">
+                Lớp tài sản dịch vụ
+            </h2>
+            <p class="mt-2 text-white/70 text-[14px]">
+                Chúng tôi cam kết tìm ra những giải pháp tốt nhất cho những thách thức mà khách hàng gặp phải.
+            </p>
+        </div>
+
+        <!-- TOP -->
+        <div class="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+            @foreach($topServiceCards as $card)
+            <div class="group relative overflow-hidden rounded-lg px-4 py-3 flex items-center gap-3 
+                        border border-white/10 bg-white/10 backdrop-blur
+                        transition-all duration-300 
+                        hover:-translate-y-1 hover:bg-white/20 hover:shadow-lg">
+
+                <span class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition"></span>
+
+                <div class="relative z-10 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white 
+                            group-hover:bg-white/30 transition">
+                    ...
+                </div>
+
+                <h3 class="relative z-10 text-white text-[14px] font-medium">
+                    {{ $card['title'] }}
+                </h3>
+
+            </div>
+            @endforeach
+
+        </div>
+
+        <!-- LINE -->
+        <div class="mt-6 border-t border-white/10"></div>
+
+        <!-- GRID -->
+        <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-y-4 text-center">
+
+            @foreach($assetItems as $item)
+            <div class="group">
+
+                <div class="w-10 h-10 mx-auto rounded-full border border-white/20 
+                            flex items-center justify-center text-white/80 
+                            transition-all duration-300
+                            group-hover:bg-white/10 group-hover:border-white/40 group-hover:text-white group-hover:scale-110">
+                    ...
+                </div>
+
+                <p class="mt-2 text-[13px] text-white/70 group-hover:text-white transition">
+                    {{ $item['label'] }}
+                </p>
+
+            </div>
+            @endforeach
+
+        </div>
+
+    </div>
+</section>
+
+{{-- ================= GRID DỊCH VỤ ================= --}}
+<section id="services" class="py-20 bg-white/70 reveal-up">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+        <div class="mb-10">
+            <p class="kicker">Service classes</p>
+            <h2 class="text-3xl md:text-4xl font-semibold">Lớp tài sản</h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+            @foreach(($serviceTiles ?? []) as $st)
+                <article class="group relative aspect-square rounded-2xl overflow-hidden bg-slate-950">
+                    <img
+                        src="{{ $imgSrc($st['img'] ?? null) }}"
+                        onerror="this.onerror=null;this.src='{{ $PH }}';"
+                        alt="{{ $st['title'] ?? 'Service' }}"
+                        class="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+                        loading="lazy">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+                    <div class="absolute top-3 left-3">
+                        <svg viewBox="0 0 24 24" class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M4 20h16M6 20V8l6-4 6 4v12M10 12h4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="absolute left-3 right-3 bottom-3 text-white text-sm font-medium leading-tight">{{ $st['title'] ?? 'Dịch vụ' }}</h3>
+
+                    <div class="service-overlay absolute inset-0 bg-brand/90 text-white flex flex-col items-center justify-center translate-y-full transition-transform duration-500">
+                        <p class="font-semibold mb-4 px-4 text-center">{{ $st['title'] ?? 'Dịch vụ' }}</p>
+                        <a href="#" class="px-4 py-2 rounded-full border border-white/70 text-sm hover:bg-white hover:text-brand transition">Xem chi tiết</a>
+                    </div>
+                </article>
+            @endforeach
+        </div>
+    </div>
 </section>
 
 {{-- ================= HOẠT ĐỘNG + SIDEBAR ================= --}}
-<section class="mt-12 grid lg:grid-cols-3 gap-6">
+<section class="py-20 grid lg:grid-cols-3 gap-6 reveal-up">
     <div class="lg:col-span-2 space-y-6">
         <div class="bg-white rounded-2xl shadow-soft ring-1 ring-neutral-200/60">
             <div class="px-5 py-4 border-b">
@@ -297,7 +486,7 @@ asset('images/hero-3.jpg'),
 </section>
 
 {{-- ================= CASE STUDIES / DỰ ÁN ================= --}}
-<section id="reports" class="mt-12">
+<section id="reports" class="py-20 reveal-up">
     <div class="flex items-end justify-between">
         <div>
             <p class="kicker">Case study</p>
@@ -324,8 +513,50 @@ asset('images/hero-3.jpg'),
     </div>
 </section>
 
+{{-- ================= GLOBAL NETWORK ================= --}}
+<section class="py-20 reveal-up">
+    <div class="max-w-7xl mx-auto px-4 md:px-8">
+        <div class="rounded-3xl bg-[#071a33] overflow-hidden relative">
+            {{-- nền map svg mờ --}}
+            <div class="absolute inset-0 -z-10 opacity-30 pointer-events-none">
+                <svg viewBox="0 0 1200 560" class="w-full h-full">
+                    <path d="M60 240c110-120 210-130 310-90 90 36 132 120 232 120 86 0 132-46 190-70 108-45 186-12 260 42 68 49 150 72 238 36" fill="none" stroke="rgba(255,255,255,.65)" stroke-width="1" />
+                    <path d="M40 310c130-46 230 4 310 34 72 27 160 30 232-18 68-45 130-76 210-56 76 19 124 60 214 64 86 4 160-39 220-94" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1" />
+                    <path d="M200 150c80-42 168-30 234 10 62 38 106 86 182 86 72 0 110-40 168-60 92-32 170 16 256 88" fill="none" stroke="rgba(255,255,255,.42)" stroke-width="1" />
+                    <path d="M140 420c90-60 180-54 250-26 70 28 132 30 202 0 70-30 136-46 210-30 74 16 130 54 210 50" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1" />
+                </svg>
+            </div>
+
+            <div class="relative z-10 p-8 md:p-12">
+                <p class="text-white/70 uppercase tracking-[0.24em] text-xs">Global network</p>
+                <h2 class="text-white text-3xl md:text-4xl font-semibold mt-3">Mạng lưới thẩm định phủ khắp Việt Nam</h2>
+                <p class="text-white/70 mt-3 max-w-2xl">Kết nối chuyên gia tại các trung tâm kinh tế trọng điểm, phản hồi nhanh và đảm bảo chuẩn chất lượng thống nhất.</p>
+
+                <div class="relative h-52 md:h-64 mt-8">
+                    @php
+                        $branches = [
+                            ['name' => 'Hà Nội', 'pos' => 'top-[32%] left-[40%]'],
+                            ['name' => 'Đà Nẵng', 'pos' => 'top-[48%] left-[56%]'],
+                            ['name' => 'TP.HCM', 'pos' => 'top-[60%] left-[52%]'],
+                            ['name' => 'Cần Thơ', 'pos' => 'top-[76%] left-[44%]'],
+                        ];
+                    @endphp
+                    @foreach($branches as $b)
+                        <div class="absolute {{ $b['pos'] }} -translate-x-1/2 -translate-y-1/2 z-10">
+                            {{-- ping vòng tròn --}}
+                            <span class="absolute inset-0 h-5 w-5 rounded-full border border-white/45 animate-ping"></span>
+                            <span class="relative inline-flex h-3 w-3 rounded-full bg-white"></span>
+                            <span class="block mt-2 text-xs text-white/90 whitespace-nowrap">{{ $b['name'] }}</span>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {{-- ================= CTA LIÊN HỆ ================= --}}
-<section id="contact" class="mt-12">
+<section id="contact" class="pb-20 reveal-up">
     <div class="rounded-2xl p-6 md:p-8 bg-white shadow-soft ring-1 ring-neutral-200/60 gradient-border
               flex flex-col md:flex-row items-start md:items-center gap-4">
         <div class="flex-1">
@@ -338,4 +569,231 @@ asset('images/hero-3.jpg'),
         </div>
     </div>
 </section>
+
+<style>
+    .hero-slide {
+        will-change: opacity, transform;
+    }
+    .hero-slide-img {
+        transform: scale(1.05);
+        transition: transform 1400ms ease-out;
+    }
+    .hero-slide.is-active .hero-slide-img {
+        transform: scale(1);
+    }
+    .psa-tab.is-active {
+        background: rgba(15, 23, 42, .45);
+        border-left-color: #f59e0b;
+    }
+    .psa-tab.is-active span:last-child {
+        color: #fbbf24;
+    }
+    .hero-word {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+    #heroTitle.hero-animate .hero-word {
+        animation: heroWordIn 720ms cubic-bezier(.2,.8,.2,1) forwards;
+    }
+    @keyframes heroWordIn {
+        from { opacity: 0; transform: translateY(22px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .core-center-wheel {
+        background: conic-gradient(
+            #2f9cf4 0deg 90deg,
+            #12b76a 90deg 180deg,
+            #ff6b35 180deg 270deg,
+            #f4b400 270deg 360deg
+        );
+        transition: transform 700ms ease;
+    }
+    #coreValuesSection.is-focus .core-value-item {
+        opacity: .5;
+        transition: opacity .35s ease, transform .35s ease;
+    }
+    #coreValuesSection.is-focus .core-value-item.is-active {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+    #coreValuesSection.is-focus .core-value-item.is-active .core-value-badge {
+        box-shadow: 0 14px 28px rgba(15, 23, 42, .22);
+    }
+    #coreValuesSection.is-focus .core-center-wheel {
+        transform: rotate(22deg);
+    }
+    #services .group:hover .service-overlay {
+        transform: translateY(0%);
+    }
+    .reveal-up {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 800ms ease, transform 800ms ease;
+    }
+    .reveal-up.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    @media (max-width: 768px) {
+        .hero-slide-img {
+            transform: scale(1.02);
+        }
+        #heroSlider .hero-slide {
+            border-radius: 16px;
+        }
+        #heroSlider .hero-title {
+            font-size: 1.9rem;
+            line-height: 1.2;
+        }
+        #services-psa .psa-tab span:last-child {
+            font-size: 1.1rem;
+        }
+        #services-psa .psa-panel h3 {
+            font-size: 1.9rem;
+        }
+        #services-psa .psa-panel p,
+        #services-psa .psa-panel li {
+            font-size: 1rem;
+        }
+        #services .service-overlay {
+            display: none;
+        }
+        #heroTitle.hero-animate .hero-word {
+            animation-duration: 450ms;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        #heroTitle.hero-animate .hero-word,
+        .hero-word,
+        .hero-slide-img,
+        .reveal-up {
+            animation: none !important;
+            transition: none !important;
+        }
+        .hero-word {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        #coreValuesSection.is-focus .core-value-item { opacity: 1 !important; }
+        #coreValuesSection.is-focus .core-center-wheel { transform: none !important; }
+    }
+    .asset-layer-stripes {
+        background-image: repeating-linear-gradient(
+            -28deg,
+            transparent,
+            transparent 22px,
+            rgba(16, 185, 129, 0.045) 22px,
+            rgba(16, 185, 129, 0.045) 23px
+        );
+    }
+</style>
+
+<script>
+    (() => {
+        const heroRoot = document.querySelector('#heroSlider');
+        if (heroRoot) {
+            const slides = [...heroRoot.querySelectorAll('.hero-slide')];
+            const dots = [...heroRoot.querySelectorAll('[data-dot]')];
+            const prev = heroRoot.querySelector('[data-prev]');
+            const next = heroRoot.querySelector('[data-next]');
+            let index = 0;
+            let timer = null;
+            const total = slides.length;
+            const heroTitle = document.querySelector('#heroTitle');
+
+            const animateTitle = () => {
+                if (!heroTitle) return;
+                heroTitle.classList.remove('hero-animate');
+                // force reflow to restart animation
+                void heroTitle.offsetWidth;
+                heroTitle.classList.add('hero-animate');
+            };
+
+            const go = (n) => {
+                if (total <= 0) {
+                    animateTitle();
+                    return;
+                }
+                index = (n + total) % total;
+                slides.forEach((slide, idx) => {
+                    const active = idx === index;
+                    slide.classList.toggle('is-active', active);
+                    slide.classList.toggle('opacity-100', active);
+                    slide.classList.toggle('z-[2]', active);
+                    slide.classList.toggle('opacity-0', !active);
+                    slide.classList.toggle('z-[1]', !active);
+                });
+                dots.forEach((dot, idx) => dot.dataset.active = String(idx === index));
+                animateTitle();
+            };
+
+            const start = () => {
+                if (total <= 1) return; // không autoplay nếu chỉ có 1 slide
+                stop();
+                timer = setInterval(() => go(index + 1), 4800);
+            };
+            const stop = () => timer && clearInterval(timer);
+
+            dots.forEach((dot, dotIdx) => {
+                dot.addEventListener('click', () => {
+                    go(dotIdx);
+                    start();
+                });
+            });
+            prev?.addEventListener('click', () => {
+                go(index - 1);
+                start();
+            });
+            next?.addEventListener('click', () => {
+                go(index + 1);
+                start();
+            });
+
+            heroRoot.addEventListener('mouseenter', stop);
+            heroRoot.addEventListener('mouseleave', start);
+            go(0);
+            start();
+        }
+
+        const psaTabs = [...document.querySelectorAll('[data-psa-tab]')];
+        const psaPanels = [...document.querySelectorAll('[data-psa-panel]')];
+        if (psaTabs.length && psaPanels.length) {
+            const openPanel = (idx) => {
+                psaTabs.forEach((tab, tIdx) => tab.classList.toggle('is-active', tIdx === idx));
+                psaPanels.forEach((panel, pIdx) => panel.classList.toggle('hidden', pIdx !== idx));
+            };
+            psaTabs.forEach((tab, idx) => tab.addEventListener('click', () => openPanel(idx)));
+            openPanel(0);
+        }
+
+        const coreValuesSection = document.querySelector('#coreValuesSection');
+        if (coreValuesSection) {
+            const items = [...coreValuesSection.querySelectorAll('[data-core-item]')];
+            items.forEach((item) => {
+                item.addEventListener('mouseenter', () => {
+                    coreValuesSection.classList.add('is-focus');
+                    items.forEach(el => el.classList.remove('is-active'));
+                    item.classList.add('is-active');
+                });
+                item.addEventListener('mouseleave', () => {
+                    coreValuesSection.classList.remove('is-focus');
+                    item.classList.remove('is-active');
+                });
+            });
+        }
+
+        const revealEls = document.querySelectorAll('.reveal-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.12
+        });
+        revealEls.forEach((el) => observer.observe(el));
+    })();
+</script>
 @endsection

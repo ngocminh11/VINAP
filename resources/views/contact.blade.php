@@ -6,7 +6,7 @@
 {{-- LOGO BACKGROUND --}}
     <div class="fixed inset-0 flex items-center justify-center pointer-events-none z-0">
         <img src="{{ asset('images/vinaplogo.png') }}"
-             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.08] contrast-125 select-none"
+             class="w-[400px] md:w-[700px] lg:w-[900px] opacity-[0.1] contrast-125 select-none"
              alt="">
     </div>
 
@@ -27,8 +27,7 @@
             <div>
                 <div class="text-neutral-500">Địa chỉ</div>
                 <div class="font-medium">
-                    Khu biệt thự Nine South, số 9 đường số 7, khu dân cư Vina Nam Phú,
-                    Phước Kiển, Nhà Bè, TP. Hồ Chí Minh
+                    Khu biệt thự Nine South, số 9 đường số 7, khu dân cư Vina Nam Phú, Nhà Bè, TP. Hồ Chí Minh
                 </div>
             </div>
 
@@ -49,7 +48,7 @@
 
             <div class="pt-2">
                 @php
-                $addr = 'Khu biệt thự Nine South, số 9 đường số 7, khu dân cư Vina Nam Phú, Phước Kiển, Nhà Bè, TP.HCM';
+                $addr = 'Khu biệt thự Nine South, số 9 đường số 7, khu dân cư Vina Nam Phú, Nhà Bè, TP.HCM';
                 @endphp
                 <a
                     href="https://www.google.com/maps/search/?api=1&query={{ urlencode($addr) }}"
@@ -71,7 +70,7 @@
         {{-- Khung bản đồ responsive: 4:3 trên mobile, 16:9 từ sm+ --}}
         <div class="relative w-full aspect-[4/3] sm:aspect-[16/9]">
             <iframe
-                src="{{ $embed ?? 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15677.773040225436!2d106.688757!3d10.777323!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x1438fe04e92e1c66!2zVMOyYSBOaMOgIE9JSUM!5e0!3m2!1svi!2s!4v1506188822945' }}"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7840.994103393596!2d106.71996633471558!3d10.69609223955326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317531ff515252e9%3A0x845eb8ef8e5b382a!2zQ8O0bmcgdHkgQ1AgVGjhuqltIMSR4buLbmggZ2nDoSB2w6AgVMawIHbhuqVuIMSQ4bqndSB0xrAgVmnhu4d0IE5hbSAtIFZJTkFQ!5e0!3m2!1svi!2s!4v1775445664555!5m2!1svi!2s"
                 class="absolute inset-0 w-full h-full"
                 style="border:0"
                 loading="lazy"
