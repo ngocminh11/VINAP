@@ -238,6 +238,195 @@
         .asset-mini:hover svg {
             color: white;
         }
+        /* ===== NEWS DETAIL ===== */
+
+/* Card spacing chuẩn */
+.news-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+/* Title */
+.news-title {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.4;
+    color: #111827;
+}
+
+/* Meta */
+.news-meta {
+    font-size: 13px;
+    color: #6b7280;
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+/* Banner */
+.news-banner {
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.news-banner img {
+    width: 100%;
+    transition: transform .5s ease;
+}
+
+.news-banner:hover img {
+    transform: scale(1.05);
+}
+
+/* ===== ARTICLE TYPOGRAPHY ===== */
+.article-content p {
+    margin-bottom: 16px;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.article-content h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 24px 0 12px;
+}
+
+.article-content em {
+    color: #374151;
+    font-style: italic;
+}
+
+.article-content ul {
+    padding-left: 20px;
+    margin-bottom: 16px;
+}
+
+/* ===== SHARE BUTTON ===== */
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #2563eb;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: .25s;
+}
+
+.share-btn:hover {
+    opacity: 0.9;
+}
+
+/* ===== MODAL ===== */
+.share-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.share-modal.active {
+    display: flex;
+}
+
+/* popup */
+.share-box {
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    animation: fadeInScale .3s ease;
+}
+
+/* animation */
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* close */
+.share-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #9ca3af;
+}
+
+/* icons */
+.share-icons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 16px 0;
+}
+
+.share-icons a {
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+/* colors */
+.fb { background: #1877f2; }
+.tw { background: #1da1f2; }
+.zl { background: #0a68ff; }
+
+/* copy box */
+.share-copy {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.share-copy input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 13px;
+}
+
+.share-copy button {
+    background: #2563eb;
+    color: white;
+    padding: 0 14px;
+    font-size: 13px;
+}
+
+/* ===== COMMENT ===== */
+.comment-box textarea {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.comment-item {
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+}
     </style>
 </head>
 

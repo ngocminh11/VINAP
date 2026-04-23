@@ -46,10 +46,10 @@ return [
             ['title' => 'Nghiên cứu thị trường', 'img' => 'https://picsum.photos/seed/tile5/520/360'],
         ],
         'topServiceCards' => [
-            ['title' => 'Nhà nước', 'icon' => 'gov'],
-            ['title' => 'Bank', 'icon' => 'bank'],
-            ['title' => 'Hội nhóm VPC', 'icon' => 'group'],
-            ['title' => 'Dịch vụ tư vấn luật', 'icon' => 'law'],
+            ['title' => 'Khối cơ quan nhà nước', 'slug' => 'government'],
+            ['title' => 'Ngân hàng & Doanh nghiệp', 'slug' => 'banking'],
+            ['title' => 'Khối VPC', 'slug' => 'vpc'],
+            ['title' => 'Pháp lý doanh nghiệp', 'slug' => 'legal'],
         ],
     
         'assetItems' => [
@@ -79,10 +79,75 @@ return [
             ['img' => 'https://picsum.photos/seed/done3/600/400', 'caption' => 'Khu thương mại dịch vụ'],
         ],
         'news' => [
-            ['title' => 'Báo cáo giá cả thị trường tháng 8/2025', 'date' => '07/09/2025'],
-            ['title' => 'Hỗ trợ vay mua nhà: các điểm cần lưu ý', 'date' => '05/09/2025'],
-            ['title' => 'Cập nhật khung giá tài sản đặc thù', 'date' => '02/09/2025'],
-        ],
+    [
+        'title' => 'Hớ bạc tỷ vì mua nhà phố quên thẩm định giá',
+        'slug'  => 'ho-bac-ty-mua-nha-pho-quen-tham-dinh-gia',
+        'desc'  => 'Mua căn nhà 6,5 tỷ đồng giữa cơn sốt đất, khi về ở, ông Hoàn mới biết trước đó chủ cũ từng rao bán 5 tỷ mà chẳng ai mua.',
+        'date'  => '10/12/2017',
+        'views' => 1391,
+        'content' => '
+    <p>Mua căn nhà 6,5 tỷ đồng giữa cơn sốt đất, khi về ở, ông Hoàn mới biết trước đó chủ cũ từng rao bán 5 tỷ mà chẳng ai mua.</p>
+
+    <p>Giữa cơn "sốt đất", ông Hoàn mua căn nhà trị giá 6,5 tỷ đồng. Tuy nhiên, khi về ở, gia chủ mới biết trước đó chủ cũ từng rao bán 5 tỷ đồng nhưng không có khách mua.</p>
+
+    <p>Vào đầu quý II/2017, ông Hoàn đã xuống tiền đặt cọc căn nhà phố này. Công trình thuộc địa phận hành chính quận 3 (TP.HCM), gần khu xóm đạo, thuận lợi để di chuyển về trung tâm. Nhà trong hẻm rộng, xe hơi có thể vào tận cửa, thiết kế 1 trệt, 3 lầu (gồm sân thượng) và luôn thông thoáng nhờ có giếng trời. Quá ưng ý, ông Hoàn đã vội vàng đặt cọc mua ngôi nhà. Sau đó, việc tất toán công chứng sang tên cũng diễn ra chóng vánh.</p>
+
+    <p>Ông Hoàn dọn về ở vào quý III/2017 và bắt đầu làm quen với hàng xóm. Khi đó, láng giềng cho hay, năm ngoái, căn nhà từng được một môi giới địa phương chào bán độc quyền giá 5 tỷ nhưng vẫn không ai mua. Chủ nhân mới chia sẻ: <em>“Biết tin này tôi thuê thẩm định giá và vỡ lẽ ra đã mua hớ bạc tỷ. Chỉ còn tự an ủi mình, dù sao tài sản này cũng có pháp lý đầy đủ và sẽ tăng giá theo thời gian”.</em></p>
+
+    <p>Tương tự, vào giữa tháng 4/2017, khi thị trường địa ốc sốt nóng, ông Nghiêm Cũng cũng đặt cọc căn nhà phố mặt tiền ở quận 11 (TP.HCM) với giá xấp xỉ 12 tỷ đồng. Ông Nghiêm đưa ra quyết định này chỉ trong vòng chưa đầy 1 tuần đi xem nhà. Đang có nhu cầu mở văn phòng lại hợp hướng với ngôi nhà 4 tầng, ông quyết định xuống tiền mua sau khi thương lượng bên bán giảm 800 triệu đồng.</p>
+
+    <p>Song, ông Nghiêm được ngân hàng thẩm định giá trị căn nhà chỉ ở mức 9,5 tỷ đồng khi thế chấp nhà để vay vốn kinh doanh. Người mua tiếc rẻ bày tỏ: <em>“Tôi bị sốc khi giá trị căn nhà thấp hơn rất nhiều so với giá đã mua cách đây 3 tháng. Nếu tính cả 800 triệu đồng đã được giảm, tôi vẫn còn bị hớ 1,7 tỷ”.</em></p>
+
+    <h4>"Hớ" bạc tỷ khi mua nhà phố</h4>
+
+    <p>Để không bị mất tiền tỷ, khách hàng nên thẩm định giá bất động sản trước khi mua.</p>
+
+    <p>Chuyên gia Nguyễn Tấn Phong có gần chục năm tư vấn pháp lý, môi giới nhà phố TP.HCM cho hay, nếu mua nhà quá vội vàng, bỏ qua khâu thẩm định giá là một trong những lỗi điển hình khiến khách hàng hớ hàng tỷ đồng, nhất là trong giai đoạn thị trường bất động sản nóng sốt thời gian qua.</p>
+
+    <p>Theo ông Phong: <em>“Một nghịch lý thường diễn ra là người dân cứ đua nhau mua nhà khi sốt đất, giá tăng cao do tâm lý sợ vuột mất cơ hội và gần như ít giao dịch gì khi thị trường khủng hoảng, giá giảm mạnh. Kết quả là bị hớ tiền tỷ”.</em></p>
+
+    <p>Không giống với các bất động sản nằm trong dự án được chào giá công khai, nhà phố có thị trường giao dịch cá biệt hơn, chuyên gia này cho biết.</p>
+
+    <p>Theo đó, tuy gia chủ chào bán thủ công bằng cách treo biển báo hoặc đăng tin quảng cáo một mức giá bán là A nhưng vẫn có thể thay đổi thành A\', A+ trong tích tắc. Bởi lẽ, yếu tố thị trường và sản phẩm là duy nhất. Các mức giá tăng vọt theo kiểu "thời tiết" không phải là hiếm trong cơn sốt đất. Thế nên, nhiều yếu tố cảm tính sẽ tác động tới mức giá chào bán nhà phố.</p>
+
+    <p>Do vậy, khách hàng tránh mua nhà phố trong tâm lý vội vàng. Đặc biệt, để thương lượng, mặc cả giá, người mua không nên bỏ qua khâu thẩm định giá, ít nhất là tránh bị mua đắt.</p>
+
+    <p>Nhờ thẩm định giá, bạn không chỉ biết giá trị của tài sản mà còn biết được nhiều thông tin pháp lý của bất động sản, sự an toàn cho suất đầu tư càng được củng cố.</p>
+
+    <p>Khách hàng có thể tìm đến nhiều địa chỉ thẩm định giá tài sản tin cậy như bộ phận thẩm định giá của ngân hàng hoặc các công ty thẩm định giá độc lập. Những đơn vị chức năng này có chuyên môn vững vàng và căn cứ theo quy định, hướng dẫn của pháp luật để thẩm định giá bất động sản.</p>
+
+    <p>Mặt khác, nhà đầu tư có thể tham khảo nhiều kênh thông tin, trang web thẩm định giá miễn phí hiện nay. Nếu thực sự quan tâm và có thời gian, dựa trên phương pháp cơ bản là so sánh giá trực tiếp, người mua nhà phố hoàn toàn có thể tự thẩm định giá cho tài sản của mình hoặc giám sát quá trình thẩm định giá.</p>
+
+    <p>Cách thẩm định này dựa trên cơ sở giá đã được bán trên thị trường của các bất động sản có nhiều đặc điểm tương đối giống so với tài sản bạn định mua. Đây là phương pháp sử dụng rộng rãi và phổ biến nhất hiện nay ở Việt Nam cũng như nhiều nước trên thế giới để ước tính giá trị thực của tài sản.</p>
+',
+    ],
+
+    [
+        'title' => 'Báo cáo tình hình giá cả thị trường tháng 8/2017, dự báo tháng 9/2017',
+        'slug'  => 'bao-cao-gia-thi-truong-thang-8-2017',
+        'desc'  => '',
+        'date'  => '08/2017',
+        'views' => null,
+        'content' => '<p>Đang cập nhật...</p>',
+    ],
+
+    [
+        'title' => 'AI ĐỊNH GIÁ CHO MUA BÁN NỢ NỘI BỘ ?',
+        'slug'  => 'ai-dinh-gia-mua-ban-no-noi-bo',
+        'desc'  => 'Thị trường tài chính đầu năm 2016 được đánh dấu bằng một sự kiện tích cực liên quan đến xử lý nợ.',
+        'date'  => '25/04/2016',
+        'views' => 1284,
+        'con`tent' => '
+            <p>Thị trường tài chính đầu năm 2016 ghi nhận nhiều thay đổi tích cực liên quan đến hoạt động mua bán nợ.</p>
+
+            <p>Dự thảo nghị định cho phép mua bán nợ như một loại hàng hóa, mở ra hướng xử lý nợ xấu hiệu quả hơn.</p>
+
+            <p>Các công ty AMC có thể đóng vai trò quan trọng trong việc xử lý và định giá các khoản nợ.</p>
+
+            <p>Tuy nhiên, việc định giá nợ là yếu tố then chốt, đòi hỏi chuyên môn cao và tính minh bạch.</p>
+        ',
+    ],
+],
         'cases' => [
             ['tag' => 'Năng lượng', 'title' => 'Định giá nhà máy điện mặt trời 120MWp', 'img' => 'https://picsum.photos/seed/solar/1200/800'],
             ['tag' => 'Hạ tầng', 'title' => 'Định giá khu công nghiệp miền Nam', 'img' => 'https://picsum.photos/seed/infra/1200/800'],
@@ -582,5 +647,86 @@ return [
             ],
 
         ],
+        
     ],
+    'sectors' => [
+
+    'government' => [
+        'title' => 'KHỐI CƠ QUAN NHÀ NƯỚC',
+        'subtitle' => 'Government Sector',
+        'groups' => [
+
+            [
+                'name' => 'Sở Tài chính TP.HCM',
+                'items' => [
+                    [
+                        'img' => 'images/1.jpg',
+                        'desc' => 'Hội đồng định giá tài sản thường xuyên TP.HCM...',
+                    ],
+                    [
+                        'img' => 'images/2.jpg',
+                        'desc' => 'Thanh lý danh mục tài sản...',
+                    ],
+                ]
+            ],
+
+            [
+                'name' => 'Sở TNMT Long An',
+                'items' => [
+                    [
+                        'img' => 'images/3.jpg',
+                        'desc' => 'Khu đất tại Long An...',
+                    ],
+                ]
+            ],
+
+        ]
+    ],
+
+    'banking' => [
+        'title' => 'KHỐI NGÂN HÀNG VÀ DOANH NGHIỆP',
+        'subtitle' => 'Banking and Business',
+        'items' => [
+
+            [
+                'img' => 'images/bank1.jpg',
+                'desc' => 'Agribank – Thẩm định tài sản...',
+            ],
+            [
+                'img' => 'images/bank2.jpg',
+                'desc' => 'Sacombank – Định giá bất động sản...',
+            ],
+            [
+                'img' => 'images/bank3.jpg',
+                'desc' => 'Vietinbank – Định giá khoản nợ...',
+            ],
+
+        ]
+    ],
+
+    'vpc' => [
+        'title' => 'KHỐI VPC',
+        'subtitle' => 'VPC Asia Pacific',
+        'content' => '
+            VINAP là thành viên của Hiệp hội định giá Châu Á - Thái Bình Dương (VPC).
+            Hoạt động hợp tác quốc tế trong lĩnh vực tài chính, thẩm định giá...
+        ',
+        'images' => [
+            'images/vpc1.jpg',
+            'images/vpc2.jpg'
+        ]
+    ],
+
+    'legal' => [
+        'title' => 'PHÁP LÝ DOANH NGHIỆP',
+        'subtitle' => 'Corporate Legal Services',
+        'items' => [
+            'Tư vấn pháp lý doanh nghiệp',
+            'Định giá tài sản pháp lý',
+            'Giải quyết tranh chấp',
+            'Hỗ trợ hồ sơ đầu tư'
+        ]
+    ]
+
+],
 ];

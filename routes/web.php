@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\SectionController;
 /*
 |--------------------------------------------------------------------------
 | PUBLIC ROUTES + ANTI SPAM
@@ -67,12 +68,14 @@ Route::middleware(['anti.spam'])->group(function () {
 
     })->name('clients');
 
-
+    Route::get('/tin-tuc/{slug}', [NewsController::class, 'show']);
     // CONTACT
     Route::view('/lien-he', 'contact', [
         'laws'  => config('site.laws'),
         'links' => config('site.links'),
         'embed' => config('site.contact_map_embed'),
     ])->name('contact');
+    Route::get('/linh-vuc/{slug}', [SectionController::class, 'show']);
+    
 
 });

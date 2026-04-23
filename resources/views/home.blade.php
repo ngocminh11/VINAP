@@ -305,25 +305,40 @@ if (empty($banners)) {
         <!-- TOP -->
         <div class="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-4">
 
-            @foreach($topServiceCards as $card)
-            <div class="group relative overflow-hidden rounded-lg px-4 py-3 flex items-center gap-3 
-                        border border-white/10 bg-white/10 backdrop-blur
-                        transition-all duration-300 
-                        hover:-translate-y-1 hover:bg-white/20 hover:shadow-lg">
+        @foreach($topServiceCards as $card)
 
-                <span class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition"></span>
+<a href="/linh-vuc/{{ $card['slug'] }}"
+   class="group relative overflow-hidden rounded-lg px-4 py-3 flex items-center gap-3 
+          border border-white/10 bg-white/10 backdrop-blur
+          transition-all duration-300 
+          hover:-translate-y-1 hover:bg-white/20 hover:shadow-lg">
 
-                <div class="relative z-10 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white 
-                            group-hover:bg-white/30 transition">
-                    ...
-                </div>
+    <span class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition"></span>
 
-                <h3 class="relative z-10 text-white text-[14px] font-medium">
-                    {{ $card['title'] }}
-                </h3>
+    <!-- ICON -->
+    <div class="relative z-10 w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white 
+                group-hover:bg-white/30 transition">
 
-            </div>
-            @endforeach
+        @if($card['slug'] == 'government')
+            🏛
+        @elseif($card['slug'] == 'banking')
+            💼
+        @elseif($card['slug'] == 'vpc')
+            🌏
+        @elseif($card['slug'] == 'legal')
+            ⚖
+        @endif
+
+    </div>
+
+    <!-- TEXT -->
+    <h3 class="relative z-10 text-white text-[14px] font-medium">
+        {{ $card['title'] }}
+    </h3>
+
+</a>
+
+@endforeach
 
         </div>
 
@@ -420,46 +435,75 @@ if (empty($banners)) {
             </ul>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-soft ring-1 ring-neutral-200/60">
-            <div class="px-5 py-4 border-b">
-                <h2 class="text-lg font-bold">Tin tức</h2>
-            </div>
-            <ul class="divide-y">
-                @foreach(($news ?? []) as $n)
-                <li class="p-5 flex items-center justify-between">
-                    <a href="#" class="hover:text-brand">{{ $n['title'] ?? '' }}</a>
-                    <span class="text-xs text-neutral-500">{{ $n['date'] ?? '' }}</span>
-                </li>
-                @endforeach
-            </ul>
-        </div>
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mt-6">
+
+    <!-- HEADER -->
+    <div class="px-5 py-3 bg-gray-50 border-b flex justify-between items-center">
+        <h2 class="text-sm font-bold uppercase tracking-wide text-gray-700">
+            Tin tức
+        </h2>
+        <a href="/tin-tuc" class="text-xs text-brand hover:underline">Xem tất cả</a>
+    </div>
+
+    <!-- LIST -->
+    <ul>
+        @foreach(($news ?? []) as $n)
+        <li class="px-5 py-4 border-b last:border-0 hover:bg-gray-50 transition">
+
+            <a href="/tin-tuc/{{ $n['slug'] }}" class="block">
+                
+                <h3 class="text-sm font-bold text-gray-800 hover:text-brand leading-snug">
+                    {{ $n['title'] }}
+                </h3>
+
+                @if(!empty($n['desc']))
+                <p class="text-xs text-gray-600 mt-1 line-clamp-2">
+                    {{ $n['desc'] }}
+                </p>
+                @endif
+
+                <div class="flex items-center justify-between mt-2 text-xs text-gray-400">
+                    <span>
+                        {{ $n['date'] }}
+                    </span>
+
+                    <div class="flex items-center gap-3">
+                        <span>👁 {{ $n['views'] ?? 0 }}</span>
+                        <span class="text-brand">(Xem tiếp)</span>
+                    </div>
+                </div>
+
+            </a>
+
+        </li>
+        @endforeach
+    </ul>
+</div>
     </div>
 
     <aside class="space-y-6">
-        <div class="bg-white rounded-2xl shadow-soft ring-1 ring-neutral-200/60">
-            <div class="px-5 py-4 border-b flex items-center justify-between">
-                <h3 class="font-semibold">Dịch vụ đã thực hiện</h3>
-                <div class="flex gap-1">
-                    @foreach(($deliveredServices ?? []) as $i => $d)
-                    <button class="w-2.5 h-2.5 rounded-full bg-neutral-300 data-[active=true]:bg-brand"
-                        data-dot="{{ $i }}"></button>
-                    @endforeach
-                </div>
-            </div>
-            <div id="deliveredSlider" class="relative overflow-hidden">
-                @foreach(($deliveredServices ?? []) as $i => $d)
-                <figure class="slide {{ $i===0 ? 'block' : 'hidden' }}">
-                    <img
-                        src="{{ $imgSrc($d['img'] ?? null) }}"
-                        onerror="this.onerror=null;this.src='{{ $PH }}';"
-                        alt=""
-                        class="w-full h-44 object-cover"
-                        loading="lazy">
-                    <figcaption class="px-5 py-3 text-sm text-center text-neutral-600">{{ $d['caption'] ?? '' }}</figcaption>
-                </figure>
-                @endforeach
-            </div>
-        </div>
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mt-6">
+    <div class="px-5 py-3 bg-gray-50 border-b">
+        <h2 class="text-sm font-bold uppercase tracking-wide text-gray-700">
+            Tin tức
+        </h2>
+    </div>
+
+    <ul>
+        @foreach(($news ?? []) as $n)
+        <li class="px-5 py-3 flex justify-between items-center border-b last:border-0 hover:bg-gray-50 transition">
+            
+            <a href="#" class="text-sm text-gray-800 hover:text-brand leading-snug">
+                {{ $n['title'] ?? '' }}
+            </a>
+
+            <span class="text-xs text-gray-400 whitespace-nowrap ml-4">
+                {{ $n['date'] ?? '' }}
+            </span>
+        </li>
+        @endforeach
+    </ul>
+</div>
 
         <div class="bg-white rounded-2xl shadow-soft ring-1 ring-neutral-200/60">
             <div class="px-5 py-4 border-b">
