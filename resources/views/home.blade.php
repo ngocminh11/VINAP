@@ -398,7 +398,7 @@ if (empty($banners)) {
 
                     <div class="service-overlay absolute inset-0 bg-brand/90 text-white flex flex-col items-center justify-center translate-y-full transition-transform duration-500">
                         <p class="font-semibold mb-4 px-4 text-center">{{ $st['title'] ?? 'Dịch vụ' }}</p>
-                        <a href="#" class="px-4 py-2 rounded-full border border-white/70 text-sm hover:bg-white hover:text-brand transition">Xem chi tiết</a>
+                        <a href="{{ $st['href'] ?? '#' }}" class="px-4 py-2 rounded-full border border-white/70 text-sm hover:bg-white hover:text-brand transition">Xem chi tiết</a>
                     </div>
                 </article>
             @endforeach

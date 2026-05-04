@@ -431,7 +431,17 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800 min-h-full font-[Be_Vietnam_Pro]">
+<div id="global-loader">
+    <div class="loader-inner">
+        <img src="{{ asset('images/vinaplogo.png') }}" class="loader-logo">
 
+        <div class="loader-dots">
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+        </div>
+    </div>
+</div>
     {{-- HEADER --}}
     <header class="bg-white border-b sticky top-0 z-50">
         @include('partials.header')
@@ -465,7 +475,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 });
-</script>
+    let appReady = false;
 
+    function markAppReady() {
+        appReady = true;
+        tryHideLoader();
+    }
+
+    function tryHideLoader() {
+        if (document.readyState === 'complete' && appReady) {
+            const loader = document.getElementById('global-loader');
+            if (!loader) return;
+
+            loader.classList.add('hidden');
+            setTimeout(() => loader.remove(), 700);
+        }
+    }
+
+    /* load toàn bộ asset */
+    window.addEventListener('load', () => {
+        tryHideLoader();
+    });
+
+    /* fallback nếu không có API */
+    setTimeout(() => {
+        markAppReady();
+    }, 400);
+</script>
+<style>
+    /* ===== GLOBAL LOADER (ENTERPRISE) ===== */
+#global-loader {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #ffffff, #f8fafc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    transition: opacity .6s ease, visibility .6s ease;
+}
+
+#global-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* inner */
+.loader-inner {
+    text-align: center;
+}
+
+/* LOGO */
+.loader-logo {
+    width: 120px;
+    filter: drop-shadow(0 10px 25px rgba(16,185,129,0.25));
+    animation: logoFloat 2.5s ease-in-out infinite;
+}
+
+/* FLOAT nhẹ (luxury hơn pulse) */
+@keyframes logoFloat {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+/* DOTS */
+.loader-dots {
+    margin-top: 18px;
+    font-size: 22px;
+    color: #10b981;
+    letter-spacing: 6px;
+}
+
+.loader-dots span {
+    opacity: 0;
+    animation: dotWave 1.6s infinite;
+}
+
+.loader-dots span:nth-child(2){ animation-delay:.2s }
+.loader-dots span:nth-child(3){ animation-delay:.4s }
+
+@keyframes dotWave {
+    0%   { opacity:0; transform:translateY(6px); }
+    40%  { opacity:1; transform:translateY(0); }
+    80%  { opacity:0; transform:translateY(6px); }
+    100% { opacity:0; }
+}
+</style>
 </body>
 </html>

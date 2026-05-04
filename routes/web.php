@@ -23,7 +23,35 @@ Route::middleware(['anti.spam'])->group(function () {
             ]
         ));
     })->name('home');
+// VALUATION
+Route::view('/valuation', 'valuation', [
+    'laws'  => config('site.laws'),
+    'links' => config('site.links'),
+])->name('valuation');
 
+// AUCTION
+Route::view('/auction', 'auction', [
+    'laws'  => config('site.laws'),
+    'links' => config('site.links'),
+])->name('auction');
+
+// PROJECT TRANSFER
+Route::view('/project-transfer', 'project-transfer', [
+    'laws'  => config('site.laws'),
+    'links' => config('site.links'),
+])->name('project.transfer');
+
+// INVESTMENT CONSULTING
+Route::view('/investment-consulting', 'investment-consulting', [
+    'laws'  => config('site.laws'),
+    'links' => config('site.links'),
+])->name('investment.consulting');
+
+// MARKET RESEARCH
+Route::view('/market-research', 'market-research', [
+    'laws'  => config('site.laws'),
+    'links' => config('site.links'),
+])->name('market.research');
 
     // ABOUT
     Route::view('/gioi-thieu', 'about', [
@@ -76,6 +104,10 @@ Route::middleware(['anti.spam'])->group(function () {
         'embed' => config('site.contact_map_embed'),
     ])->name('contact');
     Route::get('/linh-vuc/{slug}', [SectionController::class, 'show']);
-    
+    Route::post('/contact-submit', function (\Illuminate\Http\Request $request) {
 
+        \Log::info('CONTACT FORM:', $request->all());
+    
+        return response()->json(['ok'=>true]);
+    });
 });

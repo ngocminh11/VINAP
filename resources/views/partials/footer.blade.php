@@ -1,64 +1,157 @@
-<footer class="mt-16">
+<footer class="mt-20">
+
+    {{-- CTA --}}
     <section class="section">
-        <div class="rounded-2xl p-6 md:p-8 bg-gradient-to-br from-brand to-emerald-600 text-white shadow-glow">
-            <div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-brand to-emerald-600 text-white p-8 md:p-10">
+
+            <div class="flex flex-col md:flex-row items-center gap-6">
                 <div class="flex-1">
-                    <h3 class="text-xl md:text-2xl font-bold">Cần báo giá thẩm định trong 24h?</h3>
-                    <p class="text-white/90 mt-1">Gửi mô tả tài sản và mục đích, phản hồi trong ngày làm việc.</p>
+                    <h3 class="text-2xl font-semibold">
+                        Cần báo giá thẩm định 
+                    </h3>
+                    <p class="text-white/90 text-sm mt-2">
+                        Gửi thông tin, VINAP sẽ liên hệ sớm nhất.
+                    </p>
                 </div>
-                <div class="flex gap-3">
-                    <a href="#contact" class="btn bg-white text-brand hover:bg-white/90">Liên hệ ngay</a>
-                    <a href="#" class="btn bg-white/10 border border-white/30 text-white hover:bg-white/15">Tải form</a>
-                </div>
+
+                <button onclick="openContactModal()"
+                    class="px-6 py-3 bg-white text-brand rounded-xl font-semibold">
+                    Liên hệ ngay
+                </button>
             </div>
+
         </div>
     </section>
 
-    <section class="bg-white border-t mt-8">
-        <div class="section py-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    {{-- FOOTER --}}
+    <section class="mt-12 border-t bg-white">
+        <div class="section py-10 grid md:grid-cols-3 gap-8">
+
             <div>
-                <h4 class="kicker">Về VINAP</h4>
-                <p class="mt-3 text-sm text-neutral-600">
-                    Số 9, đường 7, KDC Vina Nam Phú, Nhà Bè, TP.HCM<br>
-                    Điện thoại: (+84.028) 39330831<br>
-                    Hotline: (84) 917168816<br>
-                    Website: vinap.vn<br>
+                <h4 class="font-semibold text-sm uppercase">VINAP</h4>
+                <p class="mt-3 text-sm text-neutral-600 leading-relaxed">
+                    Số 9, Nhà Bè, TP.HCM<br>
+                    Hotline: 0917 168 816<br>
                     Email: hanh.tran@vinap.vn
                 </p>
             </div>
+
             <div>
-                <h4 class="kicker">Văn bản pháp luật</h4>
-                <ul class="mt-3 space-y-2 text-sm">
-                    @foreach(($laws ?? []) as $law)
-                    <li class="flex gap-2"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-accent"></span>{{ $law }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            <div>
-                <h4 class="kicker">Liên kết</h4>
-                <ul class="mt-3 space-y-2 text-sm">
+                <h4 class="font-semibold text-sm uppercase">Liên kết</h4>
+                <ul class="mt-3 text-sm space-y-2">
                     @foreach(($links ?? []) as $l)
-                    <li><a class="hover:text-brand" href="{{ $l['href'] }}">{{ $l['label'] }}</a></li>
+                        <li><a href="{{ $l['href'] }}" class="hover:text-brand">{{ $l['label'] }}</a></li>
                     @endforeach
                 </ul>
             </div>
+
             <div>
-                <h4 class="kicker">Nhận bản tin</h4>
-                <form class="mt-3 flex gap-2" onsubmit="return false;">
-                    <input type="email" class="border border-neutral-200 rounded-xl px-3 py-2 w-full" placeholder="Email của bạn">
-                    <button class="btn-primary">Đăng ký</button>
-                </form>
+                <h4 class="font-semibold text-sm uppercase">Pháp lý</h4>
+                <ul class="mt-3 text-sm space-y-2">
+                    @foreach(($laws ?? []) as $law)
+                        <li>{{ $law }}</li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
-        <div class="section py-4 text-xs text-neutral-500 flex items-center justify-between border-t">
-            <span>© {{ date('Y') }} VINAP • All rights reserved</span>
+
         </div>
 
-        <button id="backToTop" title="Về đầu trang"
-            class="fixed right-4 bottom-5 opacity-0 pointer-events-none transition bg-brand text-white p-3 rounded-full shadow-soft">
-            <svg viewBox="0 0 24 24" class="h-5 w-5">
-                <path fill="none" stroke="currentColor" stroke-width="2" d="M5 15l7-7 7 7" />
-            </svg>
-        </button>
+        <div class="border-t py-4 text-xs text-neutral-500 text-center">
+            © {{ date('Y') }} VINAP
+        </div>
     </section>
+
+    {{-- MODAL --}}
+    <div id="contactModal"
+         class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[9999]">
+
+        <div id="modalBox"
+             class="bg-white w-full max-w-md rounded-2xl p-6 relative
+                    opacity-0 scale-95 transition-all duration-300">
+
+            <button onclick="closeContactModal()"
+                class="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
+
+            <h3 class="text-lg font-semibold mb-4">Liên hệ</h3>
+
+            <form id="contactForm" class="space-y-3">
+
+                <input name="name" required class="w-full border p-2 rounded" placeholder="Họ tên">
+                <input name="phone" required class="w-full border p-2 rounded" placeholder="SĐT">
+                <input name="email" class="w-full border p-2 rounded" placeholder="Email">
+                <input name="address" class="w-full border p-2 rounded" placeholder="Địa chỉ">
+
+                <button class="w-full bg-brand text-white py-2 rounded">
+                    Gửi
+                </button>
+            </form>
+
+            <div id="successBox" class="hidden text-center mt-4">
+                <p class="text-green-600 font-medium mb-3">
+                    Xin cảm ơn quý khách! VINAP sẽ liên hệ sớm nhất.
+                </p>
+
+                <button onclick="closeContactModal()"
+                    class="px-4 py-2 bg-brand text-white rounded">
+                    Đóng
+                </button>
+            </div>
+
+        </div>
+    </div>
+
 </footer>
+
+<script>
+// ===== MODAL =====
+const modal = document.getElementById('contactModal');
+const box = document.getElementById('modalBox');
+
+function openContactModal(){
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    setTimeout(()=> box.classList.remove('opacity-0','scale-95'),10);
+}
+
+function closeContactModal(){
+    box.classList.add('opacity-0','scale-95');
+    setTimeout(()=>{
+        modal.classList.add('hidden');
+
+        document.getElementById('contactForm').reset();
+        document.getElementById('contactForm').classList.remove('hidden');
+        document.getElementById('successBox').classList.add('hidden');
+
+    },200);
+}
+
+// click ngoài
+modal.addEventListener('click', e=>{
+    if(e.target === modal) closeContactModal();
+});
+
+// ESC
+document.addEventListener('keydown', e=>{
+    if(e.key === "Escape") closeContactModal();
+});
+
+// ===== SUBMIT =====
+document.getElementById('contactForm').onsubmit = async function(e){
+    e.preventDefault();
+
+    const data = new FormData(this);
+
+    const res = await fetch('/contact-submit',{
+        method:'POST',
+        headers:{ 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+        body:data
+    });
+
+    if(res.ok){
+        this.classList.add('hidden');
+        document.getElementById('successBox').classList.remove('hidden');
+    }else{
+        alert('Lỗi gửi dữ liệu');
+    }
+};
+</script>

@@ -39,12 +39,38 @@ return [
     // Trang Home
     'home' => [
         'serviceTiles' => [
-            ['title' => 'Thẩm định giá', 'img' => 'https://picsum.photos/seed/tile1/520/360'],
-            ['title' => 'Đấu giá BĐS, tài sản', 'img' => 'https://picsum.photos/seed/tile2/520/360'],
-            ['title' => 'Chuyển nhượng dự án', 'img' => 'https://picsum.photos/seed/tile3/520/360'],
-            ['title' => 'Tư vấn đầu tư - BĐS', 'img' => 'https://picsum.photos/seed/tile4/520/360'],
-            ['title' => 'Nghiên cứu thị trường', 'img' => 'https://picsum.photos/seed/tile5/520/360'],
-        ],
+
+    [
+        'title' => 'Thẩm định giá',
+        'img'   => '/images/default.jpg',
+        'href'  => '/valuation'
+    ],
+
+    [
+        'title' => 'Đấu giá BĐS, tài sản',
+        'img'   => '/images/default.jpg',
+        'href'  => '/auction'
+    ],
+
+    [
+        'title' => 'Tư vấn chuyển nhượng dự án',
+        'img'   => '/images/default.jpg',
+        'href'  => '/project-transfer'
+    ],
+
+    [
+        'title' => 'Tư vấn đầu tư - BĐS',
+        'img'   => '/images/default.jpg',
+        'href'  => '/investment-consulting'
+    ],
+
+    [
+        'title' => 'Nghiên cứu thị trường',
+        'img'   => '/images/default.jpg',
+        'href'  => '/market-research'
+    ],
+
+],
         'topServiceCards' => [
             ['title' => 'Khối cơ quan nhà nước', 'slug' => 'government'],
             ['title' => 'Ngân hàng & Doanh nghiệp', 'slug' => 'banking'],

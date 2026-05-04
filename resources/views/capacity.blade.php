@@ -167,9 +167,9 @@
                 <article class="bg-white rounded-2xl shadow p-4">
 
                     <img src="{{ $imgPath }}"
-                         onerror="this.src='{{ $fallback }}'"
+                              onerror="this.onerror=null; this.src='{{ $fallback }}';"
                          class="w-full h-[200px] object-cover rounded-lg mb-3 cursor-pointer"
-                         onclick="openPreview('{{ $imgPath }}')">
+                         onclick="openPreview(this.src)">
 
                     <div class="font-bold">{{ $m['name'] }}</div>
                     <div class="text-xs text-neutral-600">{{ $m['role_vi'] ?? '' }}</div>
