@@ -1,13 +1,146 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMail;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ContactRequestController;
 /*
 |--------------------------------------------------------------------------
 | PUBLIC ROUTES + ANTI SPAM
 |--------------------------------------------------------------------------
 */
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
+
+$adminPath = config('admin.path');
+
+
+Route::prefix($adminPath)
+    ->name('admin.')
+    ->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOGIN
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/login',
+            [AuthController::class, 'showLogin']
+        )->name('login');
+
+        Route::post(
+            '/login',
+            [AuthController::class, 'login']
+        )
+        ->middleware('throttle:10,1')
+        ->name('login.submit');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | AUTHENTICATED ADMIN
+        |--------------------------------------------------------------------------
+        */
+
+        Route::middleware('admin.auth')->group(function () {
+
+            /*
+            | Dashboard
+            */
+
+            Route::get(
+                '/',
+                [DashboardController::class, 'index']
+            )->name('dashboard');
+
+
+            /*
+            | Logout
+            */
+
+            Route::post(
+                '/logout',
+                [AuthController::class, 'logout']
+            )->name('logout');
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CONTACT REQUESTS
+            |--------------------------------------------------------------------------
+            */
+
+            Route::prefix('requests')
+                ->name('requests.')
+                ->group(function () {
+
+                    Route::get(
+                        '/',
+                        [ContactRequestController::class, 'index']
+                    )->name('index');
+
+                    Route::get(
+                        '/{id}',
+                        [ContactRequestController::class, 'show']
+                    )->whereNumber('id')
+                    ->name('show');
+
+
+                    /*
+                    | Phân công
+                    */
+
+                    Route::post(
+                        '/{id}/assign',
+                        [
+                            ContactRequestController::class,
+                            'assign'
+                        ]
+                    )->whereNumber('id')
+                    ->name('assign');
+
+
+                    /*
+                    | Đổi trạng thái
+                    */
+
+                    Route::post(
+                        '/{id}/status',
+                        [
+                            ContactRequestController::class,
+                            'updateStatus'
+                        ]
+                    )->whereNumber('id')
+                    ->name('status');
+
+
+                    /*
+                    | Ghi chú
+                    */
+
+                    Route::post(
+                        '/{id}/notes',
+                        [
+                            ContactRequestController::class,
+                            'addNote'
+                        ]
+                    )->whereNumber('id')
+                    ->name('notes');
+                });
+        });
+    });
 
 Route::middleware(['anti.spam'])->group(function () {
 
@@ -104,10 +237,8 @@ Route::view('/market-research', 'market-research', [
         'embed' => config('site.contact_map_embed'),
     ])->name('contact');
     Route::get('/linh-vuc/{slug}', [SectionController::class, 'show']);
-    Route::post('/contact-submit', function (\Illuminate\Http\Request $request) {
-
-        \Log::info('CONTACT FORM:', $request->all());
-    
-        return response()->json(['ok'=>true]);
-    });
+    Route::post(
+    '/contact-submit',
+    [ContactController::class, 'submit']
+)->name('contact.submit');
 });

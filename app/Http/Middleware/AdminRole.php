@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class AdminRole
+{
+    public function handle(
+        Request $request,
+        Closure $next,
+        ...$roles
+    ): Response {
+
+        $admin = $request->attributes->get('admin');
+
+        if (!$admin) {
+            abort(403);
+        }
+
+        if (!in_array($admin->role, $roles, true)) {
+            abort(403, 'Bạn không có quyền thực hiện thao tác này.');
+        }
+
+        return $next($request);
+    }
+}

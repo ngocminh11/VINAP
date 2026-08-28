@@ -3,9 +3,9 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
+    "dev": "concurrently --kill-others-on-fail --names \"LARAVEL,VITE\" \"php artisan serve\" \"vite\"",
+    "build": "vite build"
+},
     "devDependencies": {
         "autoprefixer": "^10.4.21",
         "axios": "^1.11.0",
